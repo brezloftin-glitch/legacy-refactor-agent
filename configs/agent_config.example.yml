@@ -1,0 +1,30 @@
+# ==========================================
+# Multi-Agent Refactoring System Config (Example)
+# ==========================================
+
+llm_backend:
+  primary_model: "MiMo-V2.5-Pro"
+  fallback_model: "MiMo-V2.5-Base"
+  api_endpoint: "https://api.orbit.mimo.example/v1/chat/completions"
+  # 申请 MiMo 激励计划的核心诉求：长文本支持
+  max_context_window: 1000000  
+  temperature_settings:
+    decision_agent: 0.1  # 决策需严谨
+    execution_agent: 0.3 # 代码生成允许微调
+    critic_agent: 0.1    # 批判验证需严谨
+
+agent_workflow:
+  max_healing_retries: 3           # 最大自愈重试次数
+  sandbox_timeout_seconds: 300     # 编译与单测超时时间
+  enable_ast_caching: true         # 启用 AST 缓存降低 Token 消耗
+
+paths:
+  legacy_source_dir: "/app/source/legacy_modules"
+  sandbox_env: "/app/sandbox/maven_env"
+  output_logs: "/var/logs/agent_workflow.log"
+
+safety:
+  # 防止 Agent 意外删除核心依赖
+  protected_packages:
+    - "com.enterprise.core.security"
+    - "com.enterprise.core.transaction"
